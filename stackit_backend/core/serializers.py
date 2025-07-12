@@ -20,25 +20,6 @@ class SignupSerializer(serializers.ModelSerializer):
         )
         return user
 
-from rest_framework import serializers
-from django.contrib.auth import authenticate
-from rest_framework.exceptions import AuthenticationFailed
-
-class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    password = serializers.CharField(write_only=True)
-
-    def validate(self, data):
-        user = authenticate(username=data['username'], password=data['password'])
-        if user is None:
-            raise AuthenticationFailed('Invalid username or password')
-        if not user.is_active:
-            raise AuthenticationFailed('User is deactivated')
-        return {
-            'username': user.username,
-            'email': user.email,
-            'id': user.id,
-        }
 
 # serializers.py
 
@@ -53,3 +34,25 @@ class QuestionSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = self.context['request'].user  # Authenticated user from request
         return Question.objects.create(user=user, **validated_data)
+
+# serializers.py
+
+from rest_framework import serializers
+from .models import Answer
+
+class AnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Answer
+        fields = ['answer_id', 'answer', 'file_upload', 'question', 'accepted_or_not']
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        return Answer.objects.create(user=user, **validated_data)
+
+from .models import Upvote
+class UpvoteSerializer(serializers.ModelSerializer):
+    answer_id = serializers.IntegerField(source='answer.answer_id', read_only=True)
+
+    class Meta:
+        model = Upvote
+        fields = ['answer_id', 'total_vote']

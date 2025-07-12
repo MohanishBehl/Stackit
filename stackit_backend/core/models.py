@@ -26,3 +26,23 @@ class Question(models.Model):
     def __str__(self):
         return self.title
 
+
+class Answer(models.Model):
+    answer_id = models.AutoField(primary_key=True)
+    answer = models.TextField()
+    file_upload = models.URLField(null=True, blank=True)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='answers')
+    accepted_or_not = models.CharField(max_length=20, default="Not Accepted")
+
+    def __str__(self):
+        return f"Answer by {self.user.username} on Question ID {self.question.question_id}"
+
+from .models import Answer  # or from yourapp.models if Answer is in another app
+
+class Upvote(models.Model):
+    answer = models.OneToOneField(Answer, on_delete=models.CASCADE, related_name='upvote')
+    total_vote = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"Answer ID {self.answer.answer_id} - Votes: {self.total_vote}"
