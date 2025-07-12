@@ -1,23 +1,18 @@
-import React, { useState } from 'react';
-import Login from './components/Login';
-import Signup from './components/Signup';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+// import AskQuestion from './Components/AskQuestion';
 import './App.css';
-import QuestionsFeed from './components/QuestionFeed';
+import AskQuestion from './components/AskQuestion';
+import Home from './components/Home';
 
 function App() {
-  const [isLogin, setIsLogin] = useState(false);
-
   return (
-    <div className="app-container">
-      {/* {isLogin ? (
-        <Login switchToSignup={() => setIsLogin(false)} />
-      ) : (
-        <Signup switchToLogin={() => setIsLogin(true)} />
-      )} */}
-      <QuestionsFeed/>
+    <div className="container">
+      {/* <AskQuestion /> */}
+      <Home/>
+      
     </div>
   );
 }
 
 export default App;
-    
