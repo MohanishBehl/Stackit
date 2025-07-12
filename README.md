@@ -10,6 +10,13 @@ and focused on the core experience of asking and answering questions within a co
 
 ## 👥 Team Name
 
+Team Member :
+Team Leader: Mohanish Behl
+email id:mohanishbehl824@gmail.com
+
+Team Member second: Arushi Bhargava
+email id:arushibhargava2004@gmail.com
+
 **Bug Busters**
 
 ## 📫 Contact
